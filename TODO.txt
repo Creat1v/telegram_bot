@@ -1,0 +1,3 @@
+# ToDo list
+# 1. Add new commands like current weather or currency information
+# 2. Allow authentication / user restriction
