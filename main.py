@@ -1,7 +1,8 @@
 #!/usr/bin/python3
-# Starting of a telegram bot
-# Using Library of https://github.com/python-telegram-bot/python-telegram-bot
-# https://github.com/python-telegram-bot/python-telegram-bot/wiki/Extensions-%E2%80%93-Your-first-Bot
+"""Starting of a telegram bot
+Using Library of https://github.com/python-telegram-bot/python-telegram-bot
+https://github.com/python-telegram-bot/python-telegram-bot/wiki/Extensions-%E2%80%93-Your-first-Bot"""
+
 
 import logging
 import yaml
@@ -11,33 +12,39 @@ from telegram.ext import MessageHandler, Filters
 from telegram import InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import InlineQueryHandler
 
-conf = yaml.safe_load(open('token.yml'))
+CONF = yaml.safe_load(open('token.yml'))
 
-updater = Updater(token=conf['telegram']['token'],use_context=True)
-dispatcher = updater.dispatcher
+# From version 13 'use_context=True' will be the default.
+UPDATER = Updater(token=CONF['telegram']['token'], use_context=True)
+DISPATCHER = UPDATER.dispatcher
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
 
 
 def start(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id, text="I'm DK_Bot, please talk to me!")
+    """Reaction to '/start' command messages"""
+    context.bot.send_message(chat_id=update.message.chat_id,
+                             text="I'm DK_Bot, please talk to me!")
 
 
-start_handler = CommandHandler('start', start)
-dispatcher.add_handler(start_handler)
+START_HANDLER = CommandHandler('start', start)
+DISPATCHER.add_handler(START_HANDLER)
 
-updater.start_polling()
+UPDATER.start_polling()
 
 
 def echo(update, context):
+    """Echo all non-command messages it receives"""
     context.bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
 
 
-echo_handler = MessageHandler(Filters.text, echo)
-dispatcher.add_handler(echo_handler)
+ECHO_HANDLER = MessageHandler(Filters.text, echo)
+DISPATCHER.add_handler(ECHO_HANDLER)
 
 
 def inline_caps(update, context):
+    """inline functionality, all text to UPPERCASE/CAPS - https://core.telegram.org/bots/inline"""
     query = update.inline_query.query
     if not query:
         return
@@ -52,15 +59,18 @@ def inline_caps(update, context):
     context.bot.answer_inline_query(update.inline_query.id, results)
 
 
-inline_caps_handler = InlineQueryHandler(inline_caps)
-dispatcher.add_handler(inline_caps_handler)
+INLINE_CAPS_HANDLER = InlineQueryHandler(inline_caps)
+DISPATCHER.add_handler(INLINE_CAPS_HANDLER)
 
 
 def unknown(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
+    """a MessageHandler with a command filter to reply to all commands
+    that were not recognized by the previous handler"""
+    context.bot.send_message(chat_id=update.message.chat_id,
+                             text="Sorry, I didn't understand that command.")
 
 
-unknown_handler = MessageHandler(Filters.command, unknown)
-dispatcher.add_handler(unknown_handler)
+UNKNOWN_HANDLER = MessageHandler(Filters.command, unknown)
+DISPATCHER.add_handler(UNKNOWN_HANDLER)
 
 #updater.stop()
