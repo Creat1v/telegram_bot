@@ -1,3 +1,5 @@
 # stores the token for main.py telegram-bot
 telegram:
   token: 'TOKEN'
+api:
+  weather: 'API-KEY'

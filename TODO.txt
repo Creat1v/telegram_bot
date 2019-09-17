@@ -1,4 +1,6 @@
 # ToDo list
-# 1. Add new commands like current weather or currency information
-# 2. Allow authentication / user restriction
-# 3. Create Docker Image for fast deployment
+# 1. [PARTIAL DONE] Add new commands like current weather or currency information
+# 2. Implement Job Queue
+# 3. Allow authentication / user restriction
+# 4. Implement flood limits
+# 5. Create Docker Image for fast deployment
