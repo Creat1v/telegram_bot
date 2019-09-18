@@ -74,16 +74,16 @@ def weather(update, context):
     data = {"id": "2761369", "units": "metric", "appid": CONF['api']['weather']}
     response = requests.request("GET", url, params=data)
     parsed_response = json.loads(response.text)
-    weather_message = """Weather in {}:
-Temp: {}°C
-Min/Max: {}°C/{}°C
-Humidity: {}%
-Wind speed: {}km/h""".format(parsed_response['name'],
-                             parsed_response['main']['temp'],
-                             parsed_response['main']['temp_min'],
-                             parsed_response['main']['temp_max'],
-                             parsed_response['main']['humidity'],
-                             parsed_response['wind']['speed'])
+    weather_message = "Weather in {}:\n" \
+                      "Temp: {}°C\n" \
+                      "Min/Max: {}°C/{}°C\n" \
+                      "Humidity: {}%\n" \
+                      "Wind speed: {}km/h\n".format(parsed_response['name'],
+                                                    parsed_response['main']['temp'],
+                                                    parsed_response['main']['temp_min'],
+                                                    parsed_response['main']['temp_max'],
+                                                    parsed_response['main']['humidity'],
+                                                    parsed_response['wind']['speed'])
     context.bot.send_message(chat_id=update.message.chat_id,
                              text=weather_message)
 
